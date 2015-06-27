@@ -1,0 +1,59 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<script type="text/javascript" src="glMatrix.js"></script>
+<script type="text/javascript" src="color_parser.js"></script>
+<script type="text/javascript" src="webgl2d.js"></script>
+
+<script type="text/javascript">
+window.requestAnimFrame = window.requestAnimationFrame ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame ||
+         window.oRequestAnimationFrame ||
+         window.msRequestAnimationFrame;
+
+
+var image;
+var canvas;
+
+function render() {
+	var ctx = canvas.getContext("webgl-2d");
+
+	ctx.drawImage3(image, 100, 100);
+	ctx.fillStyle = "Green";
+
+	ctx.translate(100, 100);
+	ctx.save();
+	ctx.translate(100, 100);
+	ctx.rotate(Math.PI/4);
+	ctx.translate(-100, -100);
+	ctx.fillRect(0, 0, 200, 200);
+	ctx.restore();
+	ctx.fillRect(0, 0, 200, 200);
+	
+	ctx.translate(100, 100);
+	ctx.scale(0.5, 0.5);
+	ctx.translate(-100, -100);
+	ctx.fillStyle = "Red";
+	ctx.fillRect(0, 0, 200, 200);
+
+	requestAnimFrame(render);
+}
+
+function webGLStart() {
+	canvas = document.getElementById("main-canvas");
+	WebGL2DContext.enableGL2D(canvas);	
+	var ctx = canvas.getContext("webgl-2d");
+	ctx.loadTexture("images/1.jpg", function(img) {
+		image = img;
+		render();
+	});
+}
+
+</script>
+</head>
+<body onload="webGLStart();">
+    <canvas id="main-canvas" style="border: none;" width="800" height="600"></canvas>
+</body>
+</html>
+
